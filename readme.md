@@ -1,1 +1,1 @@
-# MERN E-commers store app
+# -MERN E-commerce store app
