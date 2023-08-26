@@ -1,15 +1,19 @@
-// config env file
+// handling uncaughtException error
+process.on('uncaughtException', (err) => {
+  console.log('Uncaught Exception! 💥💥💥💥 Shutting down...');
+  console.log(err.name, err.message);
+  // giving server sometime to finish all pending request rather than crashing immediatly
+  server.close(() => {
+    process.exit(1);
+  });
+});
+
+// configuring .env file
 const dotenv = require('dotenv');
 dotenv.config({ path: './server/config.env' });
 
 const app = require('./app');
 const mongoose = require('mongoose');
-
-// initializing port and listining to it
-const port = process.env.port || 3000;
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
 
 // connecting to db
 const db = process.env.DATABASE.replace(
@@ -23,5 +27,20 @@ mongoose
   })
   .then(() => {
     console.log('Database connected');
-  })
-  .catch((err) => console.log(err));
+  });
+
+// initializing port and listining to it
+const port = process.env.port || 3000;
+const server = app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
+
+// handling unhandledRejection error
+process.on('unhandledRejection', (err) => {
+  console.log('Unhandled Rejection! 💥💥💥💥 Shutting down...');
+  console.log(err.name, err.message);
+  // giving server sometime to finish all pending request rather than crashing immediatly
+  server.close(() => {
+    process.exit(1);
+  });
+});

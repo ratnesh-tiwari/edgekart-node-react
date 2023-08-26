@@ -25,14 +25,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// Routing incoming request to dedicated controllers
 app.use('/api/v1/products', productRoute);
 app.use('/api/v1/user', userRoute);
 
 // error handler for unhandled route
 app.all('*', (req, res, next) => {
-  return next(
-    new AppError(`Can't find ${req.originalUrl} on this server.`, 404)
-  );
+  next(new AppError(`Can't find ${req.originalUrl} on this server.`, 404));
 });
 
 // using global error handler

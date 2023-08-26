@@ -1,7 +1,8 @@
-// exporting utils fun for async errors
+// exporting utils fun for async errors and global error handler
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 
+// get all document from database
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.find();
@@ -14,6 +15,7 @@ exports.getAll = (Model) =>
     });
   });
 
+// find one document with id from database
 exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     const query = Model.findById(req.params.id);
@@ -29,6 +31,7 @@ exports.getOne = (Model, popOptions) =>
     });
   });
 
+// create a new document in the database
 exports.createNew = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
@@ -40,9 +43,9 @@ exports.createNew = (Model) =>
     });
   });
 
+// update an existing document in database
 exports.updateExisting = (Model) =>
   catchAsync(async (req, res, next) => {
-    console.log('helo');
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -57,6 +60,7 @@ exports.updateExisting = (Model) =>
     });
   });
 
+// delete an existing document from database
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
