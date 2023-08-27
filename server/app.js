@@ -1,5 +1,6 @@
 const express = require('express');
 const morgon = require('morgan');
+const cookieParser = require('cookie-parser');
 
 // router import
 const productRoute = require('./routes/productRoute');
@@ -16,8 +17,13 @@ const app = express();
 if (process.env.NODE_ENV == 'development') {
   app.use(morgon('dev'));
 }
+
+// Middlewares
+
 // parse the incoming requests with JSON payloads
 app.use(express.json());
+// cookie parser
+app.use(cookieParser());
 
 // adding time to every request
 app.use((req, res, next) => {
@@ -27,7 +33,7 @@ app.use((req, res, next) => {
 
 // Routing incoming request to dedicated controllers
 app.use('/api/v1/products', productRoute);
-app.use('/api/v1/user', userRoute);
+app.use('/api/v1/users', userRoute);
 
 // error handler for unhandled route
 app.all('*', (req, res, next) => {

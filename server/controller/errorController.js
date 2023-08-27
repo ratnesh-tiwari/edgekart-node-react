@@ -68,7 +68,7 @@ module.exports = (err, req, res, next) => {
     error.message = err.message;
 
     // handling cast error
-    if (err.name === 'CastError') error = castDBErrorHandler(err);
+    if (err.name === 'CastError') error = castDBErrorHandler(error);
 
     // handling duplicate key error
     if (err.code === 11000) error = duplicateKeyDBErrorHandler(error);

@@ -1,11 +1,20 @@
 // exporting utils fun for async errors and global error handler
 const AppError = require('../utils/AppError');
+const ApiFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
 
 // get all document from database
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.find();
+    // calling api featre and implimenting api features
+    const apiFeatureQuery = new ApiFeatures(Model.find(), req.query)
+      .search()
+      .filter()
+      .limitFields()
+      .pagination();
+
+    const doc = await apiFeatureQuery.query;
+
     res.status(200).json({
       status: 'success',
       results: doc.length,
@@ -34,6 +43,7 @@ exports.getOne = (Model, popOptions) =>
 // create a new document in the database
 exports.createNew = (Model) =>
   catchAsync(async (req, res, next) => {
+    req.body.user = req.user._id;
     const doc = await Model.create(req.body);
     res.status(201).json({
       status: 'success',
