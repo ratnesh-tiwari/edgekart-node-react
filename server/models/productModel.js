@@ -1,77 +1,74 @@
 const mongoose = require('mongoose');
+const Review = require('../models/reviewModel');
 
 // defiening product schema
-const productSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'A product must have a valid name.'],
-    trim: true,
-  },
-  description: {
-    type: String,
-    required: [true, 'Please enter product description.'],
-  },
-  price: {
-    type: Number,
-    required: [true, 'A product must have a price.'],
-    maxLength: [8, 'Price cannot exceed more then 8 length.'],
-  },
-  rating: {
-    type: Number,
-    default: 0,
-  },
-  image: [
-    {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
+const productSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'A product must have a valid name.'],
+      trim: true,
     },
-  ],
-  category: {
-    type: String,
-    required: [true, 'Please enter product category.'],
-  },
-  stock: {
-    type: Number,
-    required: [true, 'Please enter product stock'],
-    maxLength: [4, 'Stock cannot exceed 9999.'],
-    default: 1,
-  },
-  numOfReviews: {
-    type: Number,
-    default: 0,
-  },
-  reviews: [
-    {
-      user: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-        required: [true, 'Review must belong to a author.'],
-      },
-      rating: {
-        type: Number,
-        required: true,
-      },
-      comment: {
-        type: String,
-        required: true,
-      },
+    description: {
+      type: String,
+      required: [true, 'Please enter product description.'],
     },
-  ],
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User',
-    required: true,
+    price: {
+      type: Number,
+      required: [true, 'A product must have a price.'],
+      maxLength: [8, 'Price cannot exceed more then 8 length.'],
+    },
+    ratingAverage: {
+      type: Number,
+      default: 0,
+    },
+    numOfReviews: {
+      type: Number,
+      default: 0,
+    },
+    images: [
+      {
+        public_id: {
+          type: String,
+          required: true,
+        },
+        url: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    category: {
+      type: String,
+      required: [true, 'Please enter product category.'],
+    },
+    stock: {
+      type: Number,
+      required: [true, 'Please enter product stock'],
+      maxLength: [4, 'Stock cannot exceed 9999.'],
+      default: 1,
+    },
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
   },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
+
+// virtually populating the review to products
+productSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'product',
+  localField: '_id',
 });
 
 // creating model out of schema

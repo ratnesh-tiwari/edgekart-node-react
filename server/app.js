@@ -10,6 +10,8 @@ const hpp = require('hpp');
 // router import
 const productRoute = require('./routes/productRoute');
 const userRoute = require('./routes/userRoute');
+const reviewRoute = require('./routes/reviewRouter');
+const orderRoute = require('./routes/orderRoute');
 
 // Global Error Handler
 const globalHandler = require('./controller/errorController');
@@ -62,6 +64,8 @@ app.use((req, res, next) => {
 // Routing incoming request to dedicated controllers
 app.use('/api/v1/products', productRoute);
 app.use('/api/v1/users', userRoute);
+app.use('/api/v1/reviews', reviewRoute);
+app.use('/api/v1/orders', orderRoute);
 
 // error handler for unhandled route
 app.all('*', (req, res, next) => {

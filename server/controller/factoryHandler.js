@@ -27,8 +27,8 @@ exports.getAll = (Model) =>
 // find one document with id from database
 exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
-    const query = Model.findById(req.params.id);
-    if (popOptions) query = query.poputate(popOptions);
+    let query = Model.findById(req.params.id);
+    if (popOptions) query = query.populate(popOptions);
     const doc = await query;
     if (!doc)
       return next(new AppError('No record has been found with given ID.', 404));
