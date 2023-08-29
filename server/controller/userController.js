@@ -3,7 +3,7 @@ const catchAsync = require('../utils/catchAsync');
 const { getAll, getOne, deleteOne } = require('./factoryHandler');
 
 exports.getAllUsers = getAll(User);
-exports.getOneUser = getOne(User);
+exports.getOneUser = getOne(User, 'address');
 exports.deleteUser = deleteOne(User);
 
 // updating user

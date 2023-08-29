@@ -2,27 +2,10 @@ const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema(
   {
-    shippingInfo: {
-      address: {
-        type: String,
-        required: true,
-      },
-      city: {
-        type: String,
-        required: true,
-      },
-      country: {
-        type: String,
-        required: true,
-      },
-      pinCode: {
-        type: Number,
-        required: true,
-      },
-      phoneNo: {
-        type: Number,
-        required: true,
-      },
+    address: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Address',
+      required: true,
     },
     orderItems: [
       {
@@ -32,10 +15,6 @@ const orderSchema = new mongoose.Schema(
           required: true,
         },
         quantity: {
-          type: Number,
-          required: true,
-        },
-        price: {
           type: Number,
           required: true,
         },
@@ -74,6 +53,8 @@ const orderSchema = new mongoose.Schema(
     },
     orderStatus: {
       type: String,
+      enum: ['placed', 'rejected', 'accepted', 'shipped', 'out-for-delivery'],
+      default: 'placed',
       required: true,
     },
     deliveredAt: String,

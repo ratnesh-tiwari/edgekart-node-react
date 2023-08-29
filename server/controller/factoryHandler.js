@@ -78,3 +78,16 @@ exports.deleteOne = (Model) =>
       return next(new AppError('No record has been found with given ID.', 404));
     res.status(204).json({ status: 'success' });
   });
+
+exports.getDocByUserId = (Model) =>
+  catchAsync(async (req, res, next) => {
+    const doc = await Model.find({ user: req.user.id });
+    if (!doc)
+      return next(new AppError('No record has been found with given ID.', 404));
+    res.status(200).json({
+      status: 'success',
+      data: {
+        data: doc,
+      },
+    });
+  });

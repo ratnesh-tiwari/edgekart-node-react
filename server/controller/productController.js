@@ -10,9 +10,6 @@ const {
   deleteOne,
 } = require('./factoryHandler');
 
-// exporting utils fun for async errors
-const catchAsync = require('../utils/catchAsync');
-
 // CRUD using factory handler function
 exports.getAllProducts = getAll(Product);
 exports.getOneProducts = getOne(Product, 'reviews');

@@ -3,51 +3,64 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'A user can must have a name.'],
-    minLength: [4, 'A name can not be shorter than 4 characters.'],
-    maxLength: [40, 'A name can not exceed 40 characters.'],
-  },
-  email: {
-    type: String,
-    required: [true, 'A user can must have a name.'],
-    unique: true,
-    validate: [validator.isEmail, 'Please enter a valid email.'],
-  },
-  password: {
-    type: String,
-    required: [true, 'A user can not be created without password.'],
-    minLength: [8, 'A password can not be shorter than 8 characters.'],
-    select: false,
-  },
-  confirmPassword: {
-    type: String,
-    required: [true, 'Please enter password confirmation.'],
-    validate: {
-      validator: function (el) {
-        return this.password === el;
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'A user can must have a name.'],
+      minLength: [4, 'A name can not be shorter than 4 characters.'],
+      maxLength: [40, 'A name can not exceed 40 characters.'],
+    },
+    email: {
+      type: String,
+      required: [true, 'A user can must have a name.'],
+      unique: true,
+      validate: [validator.isEmail, 'Please enter a valid email.'],
+    },
+    password: {
+      type: String,
+      required: [true, 'A user can not be created without password.'],
+      minLength: [8, 'A password can not be shorter than 8 characters.'],
+      select: false,
+    },
+    confirmPassword: {
+      type: String,
+      required: [true, 'Please enter password confirmation.'],
+      validate: {
+        validator: function (el) {
+          return this.password === el;
+        },
+        message: 'Password does not match.',
       },
-      message: 'Password does not match.',
     },
-  },
-  avatar: {
-    public_id: {
+    avatar: {
+      public_id: {
+        type: String,
+      },
+      url: {
+        type: String,
+      },
+    },
+    role: {
       type: String,
+      enum: ['user', 'delivery-partner', 'seller', 'admin'],
+      default: 'user',
     },
-    url: {
-      type: String,
-    },
+    resetPasswordToken: String,
+    resetPasswordExpires: String,
+    passwordChangeAt: Date,
   },
-  role: {
-    type: String,
-    enum: ['user', 'delivery-partner', 'admin'],
-    default: 'user',
-  },
-  resetPasswordToken: String,
-  resetPasswordExpires: String,
-  passwordChangeAt: Date,
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
+
+// virtuall proderty
+userSchema.virtual('address', {
+  ref: 'Address',
+  foreignField: 'user',
+  localField: '_id',
 });
 
 // pre save middleware for password hashing

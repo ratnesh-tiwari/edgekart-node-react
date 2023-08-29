@@ -12,6 +12,9 @@ const productRoute = require('./routes/productRoute');
 const userRoute = require('./routes/userRoute');
 const reviewRoute = require('./routes/reviewRouter');
 const orderRoute = require('./routes/orderRoute');
+const addressRoutes = require('./routes/addressRoutes');
+const wishListRoute = require('./routes/wishListRoute');
+const cartRoute = require('./routes/cartRoute');
 
 // Global Error Handler
 const globalHandler = require('./controller/errorController');
@@ -66,6 +69,9 @@ app.use('/api/v1/products', productRoute);
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/reviews', reviewRoute);
 app.use('/api/v1/orders', orderRoute);
+app.use('/api/v1/address', addressRoutes);
+app.use('/api/v1/wishlist', wishListRoute);
+app.use('/api/v1/cart', cartRoute);
 
 // error handler for unhandled route
 app.all('*', (req, res, next) => {
