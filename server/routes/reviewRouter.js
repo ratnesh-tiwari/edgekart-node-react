@@ -6,11 +6,19 @@ const {
   updateReview,
   deleteReview,
 } = require('../controller/reviewController');
-const { isAuthenticatedUser } = require('../controller/authContorller');
+const {
+  isAuthenticatedUser,
+  authorizedRoles,
+} = require('../controller/authContorller');
 
 const router = express.Router();
 
-router.route('/').get(getAllReview).post(isAuthenticatedUser, createReview);
+router.use(isAuthenticatedUser);
+
+router
+  .route('/')
+  .get(authorizedRoles('admin'), getAllReview)
+  .post(isAuthenticatedUser, createReview);
 
 router.route('/:id').get(getOneReview).patch(updateReview).delete(deleteReview);
 

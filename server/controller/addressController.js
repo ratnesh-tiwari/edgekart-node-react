@@ -11,7 +11,6 @@ const {
 } = require('./factoryHandler');
 
 // CRUD using factory handler function
-exports.getAllAddress = getAll(Address);
 exports.getOneAddress = getOne(Address);
 exports.createNewAddress = createNew(Address);
 exports.updateExistingAddress = updateExisting(Address);

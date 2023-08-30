@@ -7,16 +7,30 @@ const {
   getOneProducts,
   deleteProduct,
   updateExistingProduct,
+  homeProducts,
 } = require('../controller/productController');
+const {
+  isAuthenticatedUser,
+  authorizedRoles,
+} = require('../controller/authContorller');
 
 const router = express.Router();
 
-router.route('/').get(getAllProducts).post(createNewProduct);
+router.route('/home').get(homeProducts);
+
+router
+  .route('/')
+  .get(getAllProducts)
+  .post(isAuthenticatedUser, authorizedRoles('seller'), createNewProduct);
 
 router
   .route('/:id')
   .get(getOneProducts)
-  .delete(deleteProduct)
-  .patch(updateExistingProduct);
+  .delete(
+    isAuthenticatedUser,
+    authorizedRoles('seller', 'admin'),
+    deleteProduct
+  )
+  .patch(isAuthenticatedUser, authorizedRoles('seller'), updateExistingProduct);
 
 module.exports = router;

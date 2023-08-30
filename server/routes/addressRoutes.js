@@ -1,8 +1,10 @@
 const express = require('express');
 
-const { isAuthenticatedUser } = require('../controller/authContorller');
 const {
-  getAllAddress,
+  isAuthenticatedUser,
+  authorizedRoles,
+} = require('../controller/authContorller');
+const {
   createNewAddress,
   getOneAddress,
   deleteAddress,
@@ -11,10 +13,10 @@ const {
 
 const router = express.Router();
 
-router
-  .route('/')
-  .get(getAllAddress)
-  .post(isAuthenticatedUser, createNewAddress);
+// adding authentication so this route can be access by logged in users only
+router.use(isAuthenticatedUser, authorizedRoles('user'));
+
+router.route('/').post(createNewAddress);
 router
   .route('/:id')
   .get(getOneAddress)

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { isEmpty } = require('../utils/helper');
 
 const cartSchema = new mongoose.Schema(
   {
@@ -7,11 +8,11 @@ const cartSchema = new mongoose.Schema(
         product: {
           type: mongoose.Schema.ObjectId,
           ref: 'Product',
-          required: true,
+          required: [true, 'A cart must have at least one element.'],
         },
         quantity: {
           type: Number,
-          required: true,
+          required: [true, 'A product must have at least one quantity.'],
         },
       },
     ],
@@ -30,6 +31,9 @@ const cartSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+// validator
+cartSchema.path('cartItems').validate(isEmpty, 'Cart can not be empty.');
 
 // populating the order field with some values
 cartSchema.pre(/^find/, function (next) {

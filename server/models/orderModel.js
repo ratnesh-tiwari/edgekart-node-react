@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { isEmpty } = require('../utils/helper');
 
 const orderSchema = new mongoose.Schema(
   {
@@ -24,6 +25,10 @@ const orderSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
       required: true,
+    },
+    deliveryPartner: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
     },
     paymentInfo: {
       id: {
@@ -53,7 +58,14 @@ const orderSchema = new mongoose.Schema(
     },
     orderStatus: {
       type: String,
-      enum: ['placed', 'rejected', 'accepted', 'shipped', 'out-for-delivery'],
+      enum: [
+        'placed',
+        'rejected',
+        'accepted',
+        'shipped',
+        'out-for-delivery',
+        'delivered',
+      ],
       default: 'placed',
       required: true,
     },
@@ -69,10 +81,15 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
+// validator
+orderSchema
+  .path('orderItems')
+  .validate(isEmpty, 'Order can not be made for empty product list.');
+
 // populating the order field with some values
 orderSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'product',
+    path: 'orderItems.product',
     select: 'name images price ',
   });
 

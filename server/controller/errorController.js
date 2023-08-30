@@ -1,10 +1,8 @@
 const AppError = require('../utils/AppError');
 
 // Handling Invalid Database  ID (Cast error type)
-const castDBErrorHandler = (err) => {
-  const message = `Invaid ${err.path}: ${err.value}`;
-  return new AppError(message, 400);
-};
+const castDBErrorHandler = (err) =>
+  new AppError(`Invaid ${err.path}: ${err.value}`, 400);
 
 // Duplicate key errors with mongodb
 const duplicateKeyDBErrorHandler = (err) => {
@@ -19,6 +17,14 @@ const validationDBErrorHandler = (err) => {
   const message = `Invalid input Data. ${errors.join('. ')}`;
   return new AppError(message, 400);
 };
+
+// sendind error is jwt is invalid
+const handleJWTError = () =>
+  new AppError('Invalid token, Please login again', 401);
+
+// sendind error is jwt is expired
+const handleJWTExpiredError = () =>
+  new AppError('Your tokrn has expired, Please login again', 401);
 
 // send error while dev mode
 const sendErrorDevMode = (err, res) => {
@@ -75,6 +81,12 @@ module.exports = (err, req, res, next) => {
 
     // handling validation error
     if (err.name === 'ValidationError') error = validationDBErrorHandler(error);
+
+    // handling jwt invalid error
+    if (err.name === 'JsonWebTokenError') error = handleJWTError();
+
+    // handling jwt expired error
+    if (err.name === 'TokenExpiredError') error = handleJWTExpiredError();
 
     // sending error to client
     sendErrorProdMode(error, res);

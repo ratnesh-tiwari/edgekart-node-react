@@ -1,6 +1,9 @@
 const express = require('express');
 
-const { isAuthenticatedUser } = require('../controller/authContorller');
+const {
+  isAuthenticatedUser,
+  authorizedRoles,
+} = require('../controller/authContorller');
 const {
   deleteWishlist,
   createNewWishlist,
@@ -8,6 +11,9 @@ const {
 } = require('../controller/wishlistControllre');
 
 const router = express.Router();
+
+// adding authentication so this route can be access by logged in users only
+router.use(isAuthenticatedUser, authorizedRoles('user'));
 
 router
   .route('/')
