@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { isEmpty } = require('../utils/helper');
+const User = require('../models/userModel');
 
 const orderSchema = new mongoose.Schema(
   {
@@ -31,12 +32,8 @@ const orderSchema = new mongoose.Schema(
       ref: 'User',
     },
     paymentInfo: {
-      id: {
+      paymentId: {
         type: Number,
-        required: true,
-      },
-      status: {
-        type: String,
         required: true,
       },
       paidAt: {
@@ -58,14 +55,7 @@ const orderSchema = new mongoose.Schema(
     },
     orderStatus: {
       type: String,
-      enum: [
-        'placed',
-        'rejected',
-        'accepted',
-        'shipped',
-        'out-for-delivery',
-        'delivered',
-      ],
+      enum: ['placed', 'rejected', 'shipped', 'out-for-delivery', 'delivered'],
       default: 'placed',
       required: true,
     },
@@ -89,12 +79,33 @@ orderSchema
 // populating the order field with some values
 orderSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'orderItems.product',
-    select: 'name images price ',
+    path: 'orderItems',
+    populate: {
+      path: 'product',
+      select: 'name images price ',
+    },
   });
 
   next();
 });
 
+// orderSchema.statics.assignDeliveryPartner = async (orderId) => {
+//   const deliveryPartner = await User.find({ role: 'delivery-partner' });
+
+// };
+
+// orderSchema.pre(/^findOneAnd/, async function (next) {
+//   // for getting document
+//   this.o = await this.model.findOne();
+//   next();
+// });
+
+// orderSchema.post(/^findOneAnd/, async function () {
+//   // passing review from pre middleware
+//   if (this.o.orderStatus === 'shipped' && !this.o.deliveryPartner)
+//     await this.o.constructor.assignDeliveryPartner(this.o._id);
+// });
+
 const Order = mongoose.model('Order', orderSchema);
+
 module.exports = Order;

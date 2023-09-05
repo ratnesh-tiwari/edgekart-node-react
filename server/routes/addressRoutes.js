@@ -9,6 +9,7 @@ const {
   getOneAddress,
   deleteAddress,
   updateExistingAddress,
+  getAllDocRelatedToUser,
 } = require('../controller/addressController');
 
 const router = express.Router();
@@ -16,7 +17,7 @@ const router = express.Router();
 // adding authentication so this route can be access by logged in users only
 router.use(isAuthenticatedUser, authorizedRoles('user'));
 
-router.route('/').post(createNewAddress);
+router.route('/').get(getAllDocRelatedToUser).post(createNewAddress);
 router
   .route('/:id')
   .get(getOneAddress)

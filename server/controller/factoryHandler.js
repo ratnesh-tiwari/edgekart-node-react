@@ -91,3 +91,26 @@ exports.getDocByUserId = (Model) =>
       },
     });
   });
+
+// for put req
+exports.updateWholeDoc = (Model) =>
+  catchAsync(async (req, res, next) => {
+    let doc = await Model.findById(req.params.id);
+    if (!doc)
+      return next(new AppError('No document found with the given ID.', 404));
+
+    req.body.user = req?.user?.id;
+
+    doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        data: doc,
+      },
+    });
+  });

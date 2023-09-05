@@ -5,8 +5,8 @@ const {
   getCart,
   createNewCart,
   deleteCart,
+  updateExistingCart,
 } = require('../controller/cartController');
-const { updateExisting } = require('../controller/factoryHandler');
 
 const router = express.Router();
 
@@ -15,6 +15,6 @@ router.use(isAuthenticatedUser);
 
 router.route('/').get(getCart).post(createNewCart);
 
-router.route('/:id').delete(deleteCart).patch(updateExisting);
+router.route('/:id').delete(deleteCart).put(updateExistingCart);
 
 module.exports = router;

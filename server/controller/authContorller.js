@@ -109,7 +109,7 @@ exports.isAuthenticatedUser = catchAsync(async (req, res, next) => {
 
   if (!token)
     return next(
-      new AppError('Plase login to get access to this resource.', 401)
+      new AppError('Please login to get access to this resource.', 401)
     );
 
   // decoding jwt token and verifing if user exists or not

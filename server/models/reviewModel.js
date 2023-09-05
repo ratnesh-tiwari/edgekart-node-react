@@ -75,23 +75,23 @@ reviewSchema.statics.calAverageRatings = async function (productId) {
   }
 };
 
-// running rating calclater on every review
+// // running rating calclater on every review
 reviewSchema.post('save', function () {
   // this point to curr review
   this.constructor.calAverageRatings(this.product);
 });
 
-// running rating calclater on every review del and update
+// // running rating calclater on every review del and update
 reviewSchema.pre(/^findOneAnd/, async function (next) {
   // for getting document
-  this.review = await this.findOne();
+  this.r = await this.model.findOne();
   next();
 });
 
-// saving the rating in post
+// // saving the rating in post
 reviewSchema.post(/^findOneAnd/, async function () {
   // passing review from pre middleware
-  await this.review.constructor.calAverageRatings(this.review.product);
+  await this.r.constructor.calAverageRatings(this.r.product);
 });
 
 const Review = mongoose.model('Review', reviewSchema);

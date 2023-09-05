@@ -24,6 +24,8 @@ const wishlistSchema = new mongoose.Schema(
   }
 );
 
+wishlistSchema.index({ user: 1, product: 1 }, { unique: true });
+
 // to populate wishlist field
 wishlistSchema.pre(/^find/, function (next) {
   this.populate({

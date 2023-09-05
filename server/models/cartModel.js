@@ -13,6 +13,7 @@ const cartSchema = new mongoose.Schema(
         quantity: {
           type: Number,
           required: [true, 'A product must have at least one quantity.'],
+          default: 1,
         },
       },
     ],
@@ -32,6 +33,8 @@ const cartSchema = new mongoose.Schema(
   }
 );
 
+cartSchema.index({ user: 1 }, { unique: true });
+
 // validator
 cartSchema.path('cartItems').validate(isEmpty, 'Cart can not be empty.');
 
@@ -39,7 +42,10 @@ cartSchema.path('cartItems').validate(isEmpty, 'Cart can not be empty.');
 cartSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'cartItems',
-    select: 'name images price ',
+    populate: {
+      path: 'product',
+      select: 'name images price ',
+    },
   });
 
   next();

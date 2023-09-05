@@ -4,13 +4,14 @@ const Cart = require('../models/cartModel');
 // importing factory function
 const {
   createNew,
-  updateExisting,
+
   deleteOne,
   getDocByUserId,
+  updateWholeDoc,
 } = require('./factoryHandler');
 
 // CRUD using factory handler function
 exports.getCart = getDocByUserId(Cart);
 exports.createNewCart = createNew(Cart);
-exports.updateExistingCart = updateExisting(Cart);
+exports.updateExistingCart = updateWholeDoc(Cart);
 exports.deleteCart = deleteOne(Cart);

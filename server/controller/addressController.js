@@ -8,9 +8,11 @@ const {
   createNew,
   updateExisting,
   deleteOne,
+  getDocByUserId,
 } = require('./factoryHandler');
 
 // CRUD using factory handler function
+exports.getAllDocRelatedToUser = getDocByUserId(Address);
 exports.getOneAddress = getOne(Address);
 exports.createNewAddress = createNew(Address);
 exports.updateExistingAddress = updateExisting(Address);
