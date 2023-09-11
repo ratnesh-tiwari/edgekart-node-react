@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { devices } from '../styles/GlobalStyle';
 import Logo from '../ui/Logo';
 import { HiOutlineLogout, HiOutlineMenu, HiOutlineUser } from 'react-icons/hi';
-import { MdOutlineDarkMode } from 'react-icons/md';
 import ButtonIcon from '../ui/ButtonIcon';
 import { useMenuToggle } from '../context/MenuToggleContext';
+import ToggleDarkMode from '../ui/ToggleDarkMode';
 
 const StyledHeader = styled.header`
   height: 6.2rem;
@@ -13,6 +13,7 @@ const StyledHeader = styled.header`
   grid-column: 0 / -1;
   padding-inline: 1.6rem;
   border-bottom: 1px solid var(--color-grey-100);
+  background-color: var(--color-grey-100);
   justify-content: flex-end;
 
   @media ${devices.tab} {
@@ -60,9 +61,7 @@ function Header() {
         <Logo width={148} />
       </StyledLogo>
       <HeaderIconGroup>
-        <ButtonIcon>
-          <MdOutlineDarkMode />
-        </ButtonIcon>
+        <ToggleDarkMode />
         <ButtonIcon>
           <HiOutlineUser />
         </ButtonIcon>

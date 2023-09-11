@@ -4,6 +4,17 @@ const GlobalStyles = createGlobalStyle`
 
 :root {
   &, &.light-mode{
+/* Green */
+    --color-brand-100: #cce4e1;
+  --color-brand-200: #99c9c4;
+  --color-brand-300: #66afa6;
+  --color-brand-400: #339489;
+  --color-brand-500: #00796b;
+  --color-brand-600: #006156;
+  --color-brand-700: #004940;
+  --color-brand-800: #00302b;
+  --color-brand-900: #001815;
+
   /* Grey */
     --color-grey-0: #fff;
     --color-grey-50: #f9fafb;
@@ -41,6 +52,16 @@ const GlobalStyles = createGlobalStyle`
   }
 
   &.dark-mode{
+
+  --color-brand-900: #cce4e1;
+  --color-brand-800: #99c9c4;
+  --color-brand-700: #66afa6;
+  --color-brand-600: #339489;
+  --color-brand-500: #00796b;
+  --color-brand-400: #006156;
+  --color-brand-300: #004940;
+  --color-brand-200: #00302b;
+  --color-brand-100: #001815;
     
     --color-grey-0: #18212f;
     --color-grey-50: #111827;
@@ -77,17 +98,6 @@ const GlobalStyles = createGlobalStyle`
     --image-opacity: 90%;
   }
 
-
-
-  --color-brand-100: #cce4e1;
-  --color-brand-200: #99c9c4;
-  --color-brand-300: #66afa6;
-  --color-brand-400: #339489;
-  --color-brand-500: #00796b;
-  --color-brand-600: #006156;
-  --color-brand-700: #004940;
-  --color-brand-800: #00302b;
-  --color-brand-900: #001815;
 
   --color-secondary-100: #ffe2df;
   --color-secondary-200: #ffc5c0;
@@ -199,6 +209,30 @@ img {
   /* For dark mode */
   filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 0.8rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--color-grey-300);
+  box-shadow: inset 0 0 5px var(--color-grey-400);
+  border-radius: var(--border-radius-sm);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--color-secondary-400);
+  border-radius: var(--border-radius-sm);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary-200);
+}
+
 `;
 
 const sizes = {

@@ -14,8 +14,9 @@ const Aside = styled(motion.aside)`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 3.2rem;
+  padding-top: 3.2rem;
   height: 100dvh;
+  background-color: var(--color-grey-100);
 
   @media ${devices.tab} {
     display: none;
@@ -25,12 +26,10 @@ const Aside = styled(motion.aside)`
 const styleOnOpen = {
   display: 'flex',
   position: 'absolute',
-  backgroundColor: `var(--color-secondary-100)`,
   width: '26rem',
-  marginTop: 0,
-  paddingTop: '3.2rem',
   top: 0,
   left: 0,
+  zIndex: 10000,
 };
 
 function Sidebar() {

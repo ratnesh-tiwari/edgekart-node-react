@@ -13,10 +13,11 @@ const Orders = lazy(() => import('./pages/Orders'));
 const Profile = lazy(() => import('./pages/Profile'));
 const Wishlist = lazy(() => import('./pages/Wishlist'));
 import Spinner from './ui/Spinner';
+import { DarkModeContextProvider } from './context/DarkModeContext';
 
 function App() {
   return (
-    <>
+    <DarkModeContextProvider>
       <GlobalStyles />
       <Suspense fallback={<Spinner />}>
         <BrowserRouter>
@@ -34,7 +35,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </Suspense>
-    </>
+    </DarkModeContextProvider>
   );
 }
 
