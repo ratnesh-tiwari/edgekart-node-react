@@ -9,7 +9,7 @@ import Button from '../ui/Button';
 
 const Card = styled(motion.div)`
   max-width: 30rem;
-  height: 42rem;
+  height: 40rem;
   background-color: var(--color-grey-200);
   position: relative;
   padding: 1.2rem;
@@ -53,7 +53,7 @@ const StyledP = styled.p`
   font-size: 2.4rem;
   font-weight: 600;
   color: var(--color-brand-500);
-  margin-top: 2rem;
+  margin-top: 1rem;
 `;
 
 function ProductCard() {
@@ -91,7 +91,7 @@ function ProductCard() {
 
         <StyledP>{formatCurrency(12345)}</StyledP>
 
-        <Button style={{ marginTop: '1.4rem' }} sizes="small">
+        <Button style={{ marginTop: '0.8rem' }} sizes="small">
           Add to cart
         </Button>
       </Card>

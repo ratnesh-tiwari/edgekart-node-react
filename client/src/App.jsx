@@ -14,28 +14,32 @@ const Profile = lazy(() => import('./pages/Profile'));
 const Wishlist = lazy(() => import('./pages/Wishlist'));
 import Spinner from './ui/Spinner';
 import { DarkModeContextProvider } from './context/DarkModeContext';
+import { AuthenticationContextProvider } from './context/AuthenticationContext';
 
 function App() {
   return (
-    <DarkModeContextProvider>
-      <GlobalStyles />
-      <Suspense fallback={<Spinner />}>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<AppLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/:id" element={<Product />} />
-              <Route path="/user" element={<Profile />} />
-              <Route path="/user/address" element={<Address />} />
-              <Route path="/wishlist" element={<Wishlist />} />
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/cart" element={<Cart />} />
-            </Route>
-            <Route path="/login" element={<Login />} />
-          </Routes>
-        </BrowserRouter>
-      </Suspense>
-    </DarkModeContextProvider>
+    <AuthenticationContextProvider>
+      <DarkModeContextProvider>
+        <GlobalStyles />
+        <Suspense fallback={<Spinner />}>
+          <BrowserRouter>
+            <Routes>
+              <Route element={<AppLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/product/:id" element={<Product />} />
+                <Route path="/user" element={<Profile />} />
+                <Route path="/address" element={<Address />} />
+                <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/cart" element={<Cart />} />
+              </Route>
+              <Route path="/login" element={<Login />} />
+              <Route path="/*" element={<h1>Invalid route</h1>} />
+            </Routes>
+          </BrowserRouter>
+        </Suspense>
+      </DarkModeContextProvider>
+    </AuthenticationContextProvider>
   );
 }
 

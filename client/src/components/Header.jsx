@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { devices } from '../styles/GlobalStyle';
 import Logo from '../ui/Logo';
-import { HiOutlineLogout, HiOutlineMenu, HiOutlineUser } from 'react-icons/hi';
+import { HiOutlineMenu } from 'react-icons/hi';
 import ButtonIcon from '../ui/ButtonIcon';
 import { useMenuToggle } from '../context/MenuToggleContext';
 import ToggleDarkMode from '../ui/ToggleDarkMode';
+import LogoutBtnHeader from './LogoutBtnHeader';
+import LoginProfileBtnHeader from './LoginProfileBtnHeader';
 
 const StyledHeader = styled.header`
   height: 6.2rem;
@@ -62,12 +64,8 @@ function Header() {
       </StyledLogo>
       <HeaderIconGroup>
         <ToggleDarkMode />
-        <ButtonIcon>
-          <HiOutlineUser />
-        </ButtonIcon>
-        <ButtonIcon>
-          <HiOutlineLogout />
-        </ButtonIcon>
+        <LoginProfileBtnHeader />
+        <LogoutBtnHeader />
       </HeaderIconGroup>
     </StyledHeader>
   );

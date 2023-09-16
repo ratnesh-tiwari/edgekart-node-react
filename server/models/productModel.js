@@ -17,6 +17,16 @@ const productSchema = new mongoose.Schema(
       required: [true, 'A product must have a price.'],
       maxLength: [8, 'Price cannot exceed more then 8 length.'],
     },
+    discount: {
+      type: Number,
+      validate: {
+        validator: function (val) {
+          // This will only work while creating doc
+          return val < this.price;
+        },
+        message: 'Discount price should be below regular price',
+      },
+    },
     ratingAverage: {
       type: Number,
       default: 0,
@@ -41,12 +51,14 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please enter product category.'],
     },
+    brand: String,
     stock: {
       type: Number,
       required: [true, 'Please enter product stock'],
       maxLength: [4, 'Stock cannot exceed 9999.'],
       default: 1,
     },
+    gender: String,
     user: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
