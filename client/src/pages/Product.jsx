@@ -1,5 +1,11 @@
+import ProductPage from '../features/Product/ProductPage';
+
 function Product() {
-  return <div>Product</div>;
+  return (
+    <>
+      <ProductPage />
+    </>
+  );
 }
 
 export default Product;
